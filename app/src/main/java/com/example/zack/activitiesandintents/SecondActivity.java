@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class SecondActivity extends AppCompatActivity {
 
     private static final String TAG = "SecondActivityTag";
@@ -28,7 +26,20 @@ public class SecondActivity extends AppCompatActivity {
         String data = intent.getStringExtra(Constants.KEY_FOR_DATA);
 
         tvData.setText(data);
-        Log.d(TAG, "onCreate: " + data);
+
+
+        PersonSerializable personSerializable = (PersonSerializable) intent.getSerializableExtra("personObjectSerializable");
+
+        PersonParcelable personParcelable = intent.getParcelableExtra("personObjectParcelable");
+
+        if(personSerializable!=null){
+            Log.d(TAG, "onCreate: Serializable" + personSerializable.toString());
+
+        }
+        if (personParcelable!=null){
+            Log.d(TAG, "onCreate: Parcelable" + personParcelable.toString());
+
+        }
     }
 
     public void goToMain(View view) {

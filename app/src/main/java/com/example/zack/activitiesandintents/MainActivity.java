@@ -1,7 +1,6 @@
 package com.example.zack.activitiesandintents;
 
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,16 +8,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivityTag";
 
+    EditText etPersonName;
+    EditText etPersonGender;
     EditText etData;
     EditText etUpdateTextView;
     TextView tvDisplayValue;
     String updatedValue;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         etData = (EditText) findViewById(R.id.etData);
         etUpdateTextView = (EditText) findViewById(R.id.etUpdateTextView);
         tvDisplayValue = (TextView) findViewById(R.id.tvDisplayValue);
+        //bind view for person object
+        etPersonName = (EditText) findViewById(R.id.etPersonName);
+        etPersonGender = (EditText) findViewById(R.id.etPersonGender);
+
+
+
 
 
         Log.d(TAG, "onCreate: ");
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToSecond(View view) {
         String data = etData.getText().toString();
 
-        Intent intent = new Intent(this,SecondActivity.class);
+        Intent intent = new Intent(this, SecondActivity.class);
         intent.putExtra(Constants.KEY_FOR_DATA, data);
         startActivity(intent);
     }
@@ -92,5 +99,26 @@ public class MainActivity extends AppCompatActivity {
     public void updateTextView(View view) {
         updatedValue = etUpdateTextView.getText().toString();
         tvDisplayValue.setText(updatedValue);
+    }
+
+    public void sendPersonObject(View view) {
+        String personName = etPersonName.getText().toString();
+        String personGender = etPersonGender.getText().toString();
+        PersonSerializable personSerializable = new PersonSerializable(personName, personGender);
+        PersonParcelable personParcelable = new PersonParcelable(personName, personGender);
+
+
+        switch (view.getId()) {
+            case R.id.btnSendSerializable:
+                Intent intent = new Intent(this, SecondActivity.class);
+                intent.putExtra("personObjectSerializable", personSerializable);
+                startActivity(intent);
+                break;
+            case R.id.btnSendParcelable:
+                Intent intent1 = new Intent(this, SecondActivity.class);
+                intent1.putExtra("personObjectParcelable", personParcelable);
+                startActivity(intent1);
+                break;
+        }
     }
 }
